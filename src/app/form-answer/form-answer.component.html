@@ -1,0 +1,26 @@
+<div class="review-ans-form p-3 border border-dark mt-3">
+  <div *ngFor="let question of questions" class="mb-3 px-1 bg-light">
+    <h6 class="fw-bold">{{ question.title }}</h6>
+    <ng-container *ngIf="question.questionType === questionType.paragraph else multichoice">
+      <p>{{ question.paragraph || 'no answer' }}</p>
+    </ng-container>
+    <ng-template #multichoice>
+      <ng-container *ngIf="noAns(question.answers) else ans">
+        <span>no answer</span>
+      </ng-container>
+      <ng-template #ans>
+        <div *ngFor="let ans of question.answers">
+        <span *ngIf="ans.isSelected">
+          <ng-container *ngIf="ans.label.toLowerCase() !== 'other' else other">
+            <span>{{ ans.label }}</span>
+          </ng-container>
+          <ng-template #other><span>Other - {{ ans.other || 'no answer' }}</span></ng-template>
+        </span>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+  <button type="button" class="btn btn-light px-2" (click)="back()">
+    < Back to form builder
+  </button>
+</div>
